@@ -20,12 +20,6 @@ public class Enemy : MonoBehaviour
     agent.speed = newSpeed;
   }
 
-  public float GetSpeed()
-  {
-    agent = GetComponent<NavMeshAgent>();
-    return agent.speed;
-  }
-
   void Update()
   {
     agent.SetDestination(Player.position);

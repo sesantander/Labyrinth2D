@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +22,14 @@ public class GameManager : MonoBehaviour
   private GameState state;
   public GameState GetState => state;
 
+  private string _level;
+  private string _time;
+
+
+  [SerializeField] private TextMeshProUGUI levelPlaceHolder;
+  [SerializeField] private TextMeshProUGUI timePlaceHolder;
+  public int timeInSeconds = 0;
+  private float startTime;
 
   private void Awake()
   {
@@ -29,6 +39,24 @@ public class GameManager : MonoBehaviour
   void Start()
   {
     ChangeState(GameState.FirstLevel);
+    startTime = Time.time;
+  }
+
+  void Update()
+  {
+    float t = Time.time - startTime;
+    string minutes = ((int)t / 60).ToString();
+    string seconds = (t % 60).ToString("f0");
+    string firstMinute = "0";
+    if (minutes == firstMinute)
+    {
+      timePlaceHolder.text = "00 : " + seconds;
+    }
+    else
+    {
+      timePlaceHolder.text = minutes + " : " + seconds;
+    }
+    _time = timePlaceHolder.text;
   }
 
   void setMultipleSpeeds(
@@ -71,6 +99,11 @@ public class GameManager : MonoBehaviour
     }
   }
 
+  void ChangeLevel(string level)
+  {
+    levelPlaceHolder.text = "Level" + " " + level;
+    _level = "Level" + " " + level;
+  }
 
   public void ChangeState(GameState newState)
   {
@@ -79,44 +112,34 @@ public class GameManager : MonoBehaviour
     {
       case GameState.FirstLevel:
         ManageEnemies(1);
+        ChangeLevel("1");
         break;
       case GameState.SecondLevel:
         ManageEnemies(2);
+        ChangeLevel("2");
         break;
       case GameState.ThirdLevel:
         ManageEnemies(3);
+        ChangeLevel("3");
         break;
       case GameState.FourthLevel:
         ManageEnemies(4);
+        ChangeLevel("4");
         break;
       case GameState.Win:
-        // PlayerPrefs.SetString("EndText", "You Won!");
+        PlayerPrefs.SetString("EndText", "You Won!");
+        PlayerPrefs.SetString("LevelText", _level);
+        PlayerPrefs.SetString("TimeText", _time);
+        SceneManager.LoadScene("EndScene");
         break;
       case GameState.Lose:
-        // PlayerPrefs.SetString("EndText", "You Lost");
-        // SceneManager.LoadScene("EndScene");
+        PlayerPrefs.SetString("EndText", "You Lost");
+        PlayerPrefs.SetString("LevelText", _level);
+        PlayerPrefs.SetString("TimeText", _time);
+        SceneManager.LoadScene("EndScene");
         break;
-
     }
   }
-  void GenerateBoard()
-  {
-
-    // for (int i = 0; i < width; i++)
-    // {
-    //   for (int j = 0; j < height; j++)
-    //   {
-    //     var node = Instantiate(NodePrefab, new Vector2(i, j), Quaternion.identity);
-    //     var position = i.ToString() + " , " + j.ToString();
-    //     node.Init(position);
-    //     nodes.Add(node);
-    //   }
-
-    // }
-    // var center = new Vector2((float)5 / 2 - 0.5f, (float)5 / 2 - 0.5f);
-    // Camera.main.transform.position = new Vector3(center.x, center.y, -10);
-  }
-
 
 }
 

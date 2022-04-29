@@ -48,12 +48,10 @@ public class Player : MonoBehaviour
     }
     if (collision.gameObject.tag == "FourthLayerDestination")
     {
-      transform.position = new Vector2(17.6f, -3.51f);
       GameManager.Instance.ChangeState(GameState.Win);
     }
     if (collision.gameObject.tag == "Enemy")
     {
-      transform.position = new Vector2(-10f, -10f);
       GameManager.Instance.ChangeState(GameState.Lose);
     }
   }
