@@ -16,19 +16,16 @@ public class EndSceneManager : MonoBehaviour
     string levelText = PlayerPrefs.GetString("LevelText");
     string timeText = PlayerPrefs.GetString("TimeText");
 
-    _text.text = endText;
+      _text.text = endText;
     _levelText.text = "Max " + levelText;
     _timeText.text = "Time: " + timeText;
   }
 
-  //   // Update is called once per frame
-  //   public void OnRestartClick()
-  //   {
-  //     SceneManager.LoadScene("StartScene");
-  //   }
+      // Update is called once per frame
+      public void OnRestartClick()
+      {
+        SceneManager.LoadScene("SampleScene");
+      }
 
-  //   public void QuitGameClick()
-  //   {
-  //     UnityEditor.EditorApplication.isPlaying = false;
-  //   }
+      
 }
